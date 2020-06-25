@@ -11,9 +11,8 @@ import br.com.angelorobson.templatemvi.view.repositories.RepositoriesViewModel
 import br.com.angelorobson.templatemvi.view.utils.ActivityService
 import br.com.angelorobson.templatemvi.view.utils.IdlingResource
 import br.com.angelorobson.templatemvi.view.utils.Navigator
-import com.squareup.moshi.FromJson
+import br.com.angelorobson.templatemvi.view.utils.customDateAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.ToJson
 import dagger.*
 import dagger.multibindings.IntoMap
 import okhttp3.OkHttpClient
@@ -21,10 +20,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.text.DateFormat
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Provider
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -124,14 +119,16 @@ object ApiModule {
     @Provides
     @Singleton
     @JvmStatic
-    fun retrofit(@ApiBaseUrl apiBaseUrl: String, okHttpClient: OkHttpClient): Retrofit {
+    fun moshi(): Moshi = Moshi.Builder().add(customDateAdapter).build()
 
-        val d = Moshi.Builder().add(customDateAdapter).build()
-
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun retrofit(@ApiBaseUrl apiBaseUrl: String, okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(apiBaseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(MoshiConverterFactory.create(d))
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .client(okHttpClient)
                 .build()
     }
@@ -164,27 +161,5 @@ object RealModule {
     fun idlingResource(): IdlingResource = object : IdlingResource {
         override fun increment() {}
         override fun decrement() {}
-    }
-}
-
-var customDateAdapter: Any = object : Any() {
-    var dateFormat: DateFormat? = null
-
-    @ToJson
-    @Synchronized
-    fun dateToJson(d: Date?): String? {
-        return dateFormat?.format(d)
-    }
-
-    @FromJson
-    @Synchronized
-    @Throws(ParseException::class)
-    fun dateToJson(s: String?): Date? {
-        return dateFormat?.parse(s)
-    }
-
-    init {
-        dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm")
-        (dateFormat as SimpleDateFormat).timeZone = TimeZone.getTimeZone("GMT")
     }
 }
