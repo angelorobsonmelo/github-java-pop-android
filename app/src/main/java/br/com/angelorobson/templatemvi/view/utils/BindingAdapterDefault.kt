@@ -10,6 +10,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import br.com.angelorobson.templatemvi.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import java.util.*
 
 
 @BindingAdapter("visibleOrGone")
@@ -50,4 +51,9 @@ fun getProgressDrawable(context: Context): CircularProgressDrawable {
         centerRadius = 25f
         start()
     }
+}
+
+@BindingAdapter("convertToFormatDateTime")
+fun convertToFormatDateTime(textView: TextView, date: Date?) {
+    textView.text = date?.formatDateTime()
 }

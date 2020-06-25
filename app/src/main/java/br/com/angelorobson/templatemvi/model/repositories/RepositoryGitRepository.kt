@@ -7,6 +7,7 @@ import br.com.angelorobson.templatemvi.model.dtos.response.RepositoryDto
 import br.com.angelorobson.templatemvi.model.paging.RepositoryGitPageKeyedDataSource
 import br.com.angelorobson.templatemvi.model.services.RepositoryGitService
 import br.com.angelorobson.templatemvi.view.utils.Loading
+import br.com.angelorobson.templatemvi.view.utils.MainThreadExecutor
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 
 class RepositoryGitRepository @Inject constructor(
-        private val repositoryGitService: RepositoryGitService
+        repositoryGitService: RepositoryGitService
 ) {
 
     var list: PagedList<Repository>
@@ -35,11 +36,8 @@ class RepositoryGitRepository @Inject constructor(
                 .build()
 
 
-        list = PagedList.Builder(datasource, config) // Can pass `pageSize` directly instead of `config`
-                // Do fetch operations on the main thread. We'll instead be using Retrofit's
-                // built-in enqueue() method for background api calls.
+        list = PagedList.Builder(datasource, config)
                 .setFetchExecutor(executor)
-                // Send updates on the main thread
                 .setNotifyExecutor(executor)
                 .build()
     }

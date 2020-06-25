@@ -74,6 +74,10 @@ class PullRequestFragmentTest {
                 .check(matches(isDisplayed()))
 
         onView(withRecyclerView(R.id.pull_request_recycler_view)
+                .atPositionOnView(0, R.id.pull_request_created_at_text_view))
+                .check(matches(isDisplayed()))
+
+        onView(withRecyclerView(R.id.pull_request_recycler_view)
                 .atPositionOnView(0, R.id.pull_request_description_text_view))
                 .check(matches(isDisplayed()))
 

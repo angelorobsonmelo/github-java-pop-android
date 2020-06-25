@@ -18,7 +18,7 @@ ext {
     googleServicesVeersion = '4.3.3'
     okhttpVersion = '3.11.0'
     retrofitVersion = '2.4.0'
-    moshiVersion = '1.7.0'
+    moshiVersion = '1.9.3'
     rulesVersion = '1.2.0'
     fragmentVersion = '1.1.0'
     testingVersion = '1.2.0'

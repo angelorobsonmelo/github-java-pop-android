@@ -21,19 +21,32 @@
             android:id="@+id/pull_request_title_text_view"
             style="@style/TitleTextView"
             android:text="@{item.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Repository name" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/pull_request_created_at_text_view"
+            android:layout_width="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_height="wrap_content"
+            app:convertToFormatDateTime="@{item.createdAt}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pull_request_title_text_view"
+            tools:text="13/03/2020" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/pull_request_description_text_view"
             style="@style/DescriptionTextView"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16sp"
             android:text="@{item.description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pull_request_title_text_view"
+            app:layout_constraintTop_toBottomOf="@id/pull_request_created_at_text_view"
             tools:text="@string/loren_ipsum" />
 
 

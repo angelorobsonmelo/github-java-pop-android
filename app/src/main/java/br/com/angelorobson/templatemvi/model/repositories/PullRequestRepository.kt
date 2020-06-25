@@ -29,6 +29,7 @@ fun mapDtoToDomain(dto: PullRequestsDto): PullRequest {
                     login = dto.user.login,
                     avatarUrl = dto.user.avatar_url
             ),
+            createdAt = dto.created_at,
             htmlUrl = dto.html_url
     )
 }

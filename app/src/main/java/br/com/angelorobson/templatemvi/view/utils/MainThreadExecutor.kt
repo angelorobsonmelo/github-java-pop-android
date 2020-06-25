@@ -1,4 +1,4 @@
-package br.com.angelorobson.templatemvi.model.repositories
+package br.com.angelorobson.templatemvi.view.utils
 
 import android.os.Handler
 import android.os.Looper
